@@ -1,6 +1,9 @@
 .App {
   text-align: center;
 }
+.skill-section {
+  background-color: #61dafb;
+}
 
 .App-logo {
   height: 40vmin;

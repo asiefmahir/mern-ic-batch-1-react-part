@@ -7,6 +7,8 @@ import SocialSection from "./SocialSection";
 
 // {sectionOne, sectionTwo, sectionThree, sectionFour}
 const BioData = (props) => {
+
+  
   return (
     <div className='bio-data'>
         {/* {sectionOne}

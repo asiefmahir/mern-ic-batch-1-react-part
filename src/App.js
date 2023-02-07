@@ -1,165 +1,81 @@
+import {useState} from 'react'
 import "./App.css";
-import BioData from "./components/BioData";
-import InterestSection from "./components/InterestSection";
-import PersonalInfo from "./components/PersonalInfo";
-import SkillSection from "./components/SkillSection";
-import SocialSection from "./components/SocialSection";
 
-const persons = [
-	{
-		name: "Mahir Asief",
-		dateOfBirth: "10-08-1997",
-		address: "Farmgate, Dhaka",
-		skills: ["js", "react", "redux"],
-		interests: ["Watching Game", "Playing Card game4"],
-		socialLinks: [
-			{
-				platform: "FB",
-				profileLink: "#",
-			},
-			{
-				platform: "LinkedIn",
-				profileLink: "#",
-			},
-		],
-	},
+const App = () => {
+	//component call === render
+	// re-render === re-call
+	//state
+	console.log('I am being called in App')
+	// state is a component's memory
+	const [counter2, setCounter2] = useState(5);
+	const [skills, setSkills] = useState(['js', 'react', 'redux'])
+	// useState(6)
+	// console.log(monKhushi)
+	// console.log(janiNah)
 
-	{
-		name: "Fahmida Fahmi",
-		dateOfBirth: "12-12-1999",
-		address: "Dhanmondi, Dhaka",
-		skills: ["js", "react", "redux", "WP"],
-		interests: ["Playing Card game4"],
-		socialLinks: [
-			{
-				platform: "FB",
-				profileLink: "#",
-			},
-			{
-				platform: "LinkedIn",
-				profileLink: "#",
-			},
-			{
-				platform: "Twitter",
-				profileLink: "#",
-			},
-		],
-	},
-	{
-		name: "Afser Vai",
-		dateOfBirth: "12-12-1999",
-		address: "Dhanmondi, Dhaka",
-		skills: ["js", "react", "redux", "WP"],
-		interests: ["Playing Card game4"],
-		socialLinks: [
-			{
-				platform: "FB",
-				profileLink: "#",
-			},
-			{
-				platform: "LinkedIn",
-				profileLink: "#",
-			},
-			{
-				platform: "Twitter",
-				profileLink: "#",
-			},
-		],
-	},
-  {
-		name: "Mark Zukc",
-		dateOfBirth: "12-12-1999",
-		address: "Dhanmondi, Dhaka",
-		skills: ["js", "react", "redux", "WP"],
-		interests: ["Playing Card game4"],
-		socialLinks: [
-			{
-				platform: "FB",
-				profileLink: "#",
-			},
-			{
-				platform: "LinkedIn",
-				profileLink: "#",
-			},
-			{
-				platform: "Twitter",
-				profileLink: "#",
-			},
-		],
-	},
+	// let counter = 0;
 
-];
+	// counter2--
 
-function App() {
+	const increaseHandler = () => {
+		// counter++;
+		// console.log(counter)
+		setCounter2(counter2 + 1) // expression // counter2 + 1 -> 5 + 1 = 6
+		// react's part => counter2 = 6
+	}
+
+	const decreaseHandler = () => {
+		// counter--;
+		// console.log(counter)
+		setCounter2(counter2 - 1)
+		// countrer2 = 1
+	}
+
+	const removeSkillHandler = (item) => {
+		// skills.splice();
+
+		// ['js', 'react', 'redux']
+		const newSkills = skills.filter(skill => skill !== item);
+		
+		//                              'js' => 'js' !== 'js'
+		//    							'react' => 'react' !== 'js'
+
+		// console.log(newSkills, 'newSkills');
+		// console.log(skills, 'skills')
+
+		setSkills(newSkills)
+
+		// setSkills(['react', 'redux'])
+		// skills = ['react', 'redux']
+
+
+	}
+
 	return (
 		<div className="App">
-			{/* {persons.map((item) => (
-				<BioData
-					key={item.name}
-					sectionOne={
-						<PersonalInfo
-							name={item.name}
-							dateOfBirth={item.dateOfBirth}
-							address={item.address}
-						/>            
-					}
+			<h2>The value of the counter is {counter2}</h2>
+			<button onClick={increaseHandler}>Increase By 1</button>
+			<button onClick={increaseHandler}>Increase By 100</button>
 
-          sectionTwo={
-            <SkillSection
-                name = {item.name}
-                skills = {item.skills}
-            />
-          }
+			<button onClick={decreaseHandler}>Decrease By 1</button>
+			<button onClick={decreaseHandler}>Decrease By 10</button>
 
-          sectionThree={
-            <InterestSection 
-                interests = {item.interests}
-            />
-          }
-
-          sectionFour={
-            <SocialSection 
-                socialLinks = {item.socialLinks}
-            />
-          }
-				/>
-			))} */}
-
-			{persons.map(item => (
-          <BioData key = {item.name} bioDataInfo = {item} />
-      ))}
-
-			{/* <SkillSection 
-            name = 'Mahir Asief'
-            skills = {['Js', 'React', 'Redux']}
-            demo = {{a : 10}}
-        />
-        <hr />
-         <SkillSection 
-            name = 'Arif Vai'
-            skills = {['Js', 'React', 'Redux', 'WP']}
-         />
-        <hr />
-        <SkillSection 
-            name = "Nazmul Vai"
-            skills = {['Js', 'React', 'Redux', 'node', 'Wp']}
-        /> */}
+			<ul>
+				{skills.map(item => (
+					<li key={item}>
+						<span>{item}</span>
+						<button onClick={() => removeSkillHandler(item)}>Remove Me</button>
+					</li>
+				))}
+			</ul>
 		</div>
-	);
+	)
 }
 
-/**
- * TODO: 1) Personal Info
- * TODO: 2) Skill Section
- * TODO: 3) Interests Section
- * TODO: 4) Social Section
- */
-// SkillSection()
-
-/**
- * 1) Component is a function
- * 2) It should return "something"
- * 3) That "something" should be some html-ish code (jsx)
- */
-
+// const usmahir = () => {
+// 	return function () {
+// 		return "hello"
+// 	}
+// }
+// const amarMorji= usemahir()
 export default App;

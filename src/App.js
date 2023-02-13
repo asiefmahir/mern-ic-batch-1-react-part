@@ -2,69 +2,78 @@ import {useState} from 'react'
 import "./App.css";
 
 const App = () => {
-	//component call === render
-	// re-render === re-call
-	//state
-	console.log('I am being called in App')
-	// state is a component's memory
-	const [counter2, setCounter2] = useState(5);
-	const [skills, setSkills] = useState(['js', 'react', 'redux'])
-	// useState(6)
-	// console.log(monKhushi)
-	// console.log(janiNah)
+	const [noteTitle, setNoteTitle] = useState('');
+	const [notes, setNotes] = useState([])
 
-	// let counter = 0;
+	const [editMode, setEditMode] = useState(false)
+	const [editableNote, setEditableNote] = useState(null)
+	/**Object */
+	// {} === {} {id: "1"}
 
-	// counter2--
+	const createHandler = (e) => {
+		e.preventDefault()
+		if (!noteTitle) {
+			alert(`Please provide a valid note title`);
+			return
+		}
+		const newNote = {
+			id: Date.now() + '',
+			title: noteTitle
+		}
 
-	const increaseHandler = () => {
-		// counter++;
-		// console.log(counter)
-		setCounter2(counter2 + 1) // expression // counter2 + 1 -> 5 + 1 = 6
-		// react's part => counter2 = 6
+		setNotes([newNote, ...notes])
+		setNoteTitle('')
 	}
 
-	const decreaseHandler = () => {
-		// counter--;
-		// console.log(counter)
-		setCounter2(counter2 - 1)
-		// countrer2 = 1
+	const removeHandler = (noteId) => { // noteId === 2
+		const newNotes = notes.filter((item) => item.id !== noteId)
+		//								() => '1' !== '2'
+		// 								() => '2' !== '2'	
+		setNotes(newNotes)
 	}
 
-	const removeSkillHandler = (item) => {
-		// skills.splice();
+	const editHandler = (noteId) => {
+		const toBeEditedNote = notes.find((item) => item.id === noteId);
+		setEditMode(true);
+		setEditableNote(toBeEditedNote);
+		setNoteTitle(toBeEditedNote.title)
+	}
 
-		// ['js', 'react', 'redux']
-		const newSkills = skills.filter(skill => skill !== item);
-		
-		//                              'js' => 'js' !== 'js'
-		//    							'react' => 'react' !== 'js'
+	const updateHandler = (e) => {
+		e.preventDefault()
+		if (!noteTitle) {
+			alert(`Please provide a valid note title`);
+			return
+		}
+		const newNotes = notes.map(item => {
+			if (item.id === editableNote.id) { // '1' === '1'
+				item.title = noteTitle
+			}
 
-		// console.log(newSkills, 'newSkills');
-		// console.log(skills, 'skills')
+			return item
+		});
 
-		setSkills(newSkills)
-
-		// setSkills(['react', 'redux'])
-		// skills = ['react', 'redux']
-
+		setNotes(newNotes);
+		setEditMode(false);
+		setEditableNote(null);
+		setNoteTitle('')
 
 	}
 
 	return (
 		<div className="App">
-			<h2>The value of the counter is {counter2}</h2>
-			<button onClick={increaseHandler}>Increase By 1</button>
-			<button onClick={increaseHandler}>Increase By 100</button>
-
-			<button onClick={decreaseHandler}>Decrease By 1</button>
-			<button onClick={decreaseHandler}>Decrease By 10</button>
-
+			<form onSubmit={(e) => {
+				editMode ? updateHandler(e) : createHandler(e)
+			}}>
+				<input type="text" value={noteTitle} onChange={(e) => setNoteTitle(e.target.value)}/>
+				<button type="submit">{editMode ? 'Update Note': 'Add Note'}</button>
+			</form>
 			<ul>
-				{skills.map(item => (
-					<li key={item}>
-						<span>{item}</span>
-						<button onClick={() => removeSkillHandler(item)}>Remove Me</button>
+				{notes.map(item => (
+					<li key = {item.id}>
+						<span>{item.title}</span>
+						<button onClick={() => editHandler(item.id)}>Edit</button>
+						<button onClick={() => removeHandler(item.id)}>Remove</button>
 					</li>
 				))}
 			</ul>
@@ -72,10 +81,4 @@ const App = () => {
 	)
 }
 
-// const usmahir = () => {
-// 	return function () {
-// 		return "hello"
-// 	}
-// }
-// const amarMorji= usemahir()
 export default App;

@@ -1,81 +1,166 @@
-import {useState} from 'react'
+import { useState } from "react";
 import "./App.css";
 
 const App = () => {
-	//component call === render
-	// re-render === re-call
-	//state
-	console.log('I am being called in App')
-	// state is a component's memory
-	const [counter2, setCounter2] = useState(5);
-	const [skills, setSkills] = useState(['js', 'react', 'redux'])
-	// useState(6)
-	// console.log(monKhushi)
-	// console.log(janiNah)
+	const [studentName, setStudentName] = useState("");
+	const [students, setStudents] = useState([]);
+	const [editMode, setEditMode] = useState(false);
+	const [editableStudent, setEditableStudent] = useState(null);
 
-	// let counter = 0;
+	const createHandler = (e) => {
+		e.preventDefault();
+		if (!studentName) {
+			return alert(`Please provide a valid name`);
+		}
+		const newStudent = {
+			id: Date.now() + "",
+			name: studentName,
+			isPresent: undefined,
+		};
 
-	// counter2--
+		setStudents([...students, newStudent]);
+		setStudentName("");
+	};
 
-	const increaseHandler = () => {
-		// counter++;
-		// console.log(counter)
-		setCounter2(counter2 + 1) // expression // counter2 + 1 -> 5 + 1 = 6
-		// react's part => counter2 = 6
+	const removeHandler = (studentId) => {
+		const newStudentList = students.filter(item => item.id !== studentId);
+		setStudents(newStudentList)
 	}
 
-	const decreaseHandler = () => {
-		// counter--;
-		// console.log(counter)
-		setCounter2(counter2 - 1)
-		// countrer2 = 1
+	const editHandler = (studentId) => {
+		const toBeEditedStudent = students.find(item => item.id === studentId);
+		setEditMode(true);
+		setEditableStudent(toBeEditedStudent);
+		setStudentName(toBeEditedStudent.name)
 	}
 
-	const removeSkillHandler = (item) => {
-		// skills.splice();
+	const updateHandler = (e) => {
+		e.preventDefault();
+		if(!studentName) {
+			return alert(`Please provide a valid name`)
+		}
 
-		// ['js', 'react', 'redux']
-		const newSkills = skills.filter(skill => skill !== item);
+		const newStudentList = students.map(item => {
+			if (item.id === editableStudent.id) {
+				item.name = studentName
+			}
+			return item
+		})
 		
-		//                              'js' => 'js' !== 'js'
-		//    							'react' => 'react' !== 'js'
-
-		// console.log(newSkills, 'newSkills');
-		// console.log(skills, 'skills')
-
-		setSkills(newSkills)
-
-		// setSkills(['react', 'redux'])
-		// skills = ['react', 'redux']
-
-
+		setStudents(newStudentList);
+		setEditMode(false);
+		setEditableStudent(null);
+		setStudentName('')
 	}
+
+	const presentHandler = (studentId) => {
+		const newStudentList = students.map(item => {
+			if (item.id === studentId) {
+				if (item.isPresent === undefined) {
+					item.isPresent = true;
+				} else {
+					alert(`This student is already in a list`)
+				}
+			}
+			return item
+		})
+
+		setStudents(newStudentList)
+	}
+
+	const absentHandler = (studentId) => {
+		const newStudentList = students.map(item => {
+			if (item.id === studentId) {
+				if (item.isPresent === undefined) {
+					item.isPresent = false;
+				} else {
+					alert(`This student is already in a list`)
+				}
+			}
+			return item
+		})
+
+		setStudents(newStudentList)
+	}
+	
+	const toggleHandler = (studentId) => {
+		const newStudentList = students.map(item => {
+			if (item.id === studentId) {
+				item.isPresent = !item.isPresent // true !true false
+			}
+
+			return item
+		})
+
+		setStudents(newStudentList)
+	}
+
+	/**
+	 * student  = {
+	 * 		id: Date.now() + '',
+	 * 		name: 'Student 1',
+	 * 		isPresent: undefined
+	 * }
+	 */
 
 	return (
 		<div className="App">
-			<h2>The value of the counter is {counter2}</h2>
-			<button onClick={increaseHandler}>Increase By 1</button>
-			<button onClick={increaseHandler}>Increase By 100</button>
+			<form onSubmit={(e) => {
+				editMode ? updateHandler(e) : createHandler(e)
+			}}>
+				<input
+					type="text"
+					value={studentName}
+					onChange={(e) => setStudentName(e.target.value)}
+				/>
+				<button type="submit">{editMode ? 'Update Student Name' : 'Add Student'}</button>
+			</form>
+			<div className="student-section">
+				<div className="all-list">
+					<h2>All List</h2>
+					<ul>
+						{students.map((student) => (
+							<li key={student.id}>
+								<span>{student.name}</span>
+								<button onClick = {() => editHandler(student.id)}>Edit</button>
+								<button onClick={() => removeHandler(student.id)}>Remove</button>
+								<button onClick={() => presentHandler(student.id)}>Make Present</button>
+								<button onClick={() => absentHandler(student.id)}>Make Absent</button>
+							</li>
+						))}
+					</ul>
+				</div>
+				<div className="present-list">
+					<h2>Present List</h2>
 
-			<button onClick={decreaseHandler}>Decrease By 1</button>
-			<button onClick={decreaseHandler}>Decrease By 10</button>
+					<ul>
+						{students
+							.filter((item) => item.isPresent === true)
+							.map((student) => (
+								<li key={student.id}>
+									<span>{student.name}</span>
+									<button onClick={() => toggleHandler(student.id)}>Accidentally Added</button>
+								</li>
+							))}
+					</ul>
+				</div>
+				<div className="absent-list">
+					<h2>Absent List</h2>
 
-			<ul>
-				{skills.map(item => (
-					<li key={item}>
-						<span>{item}</span>
-						<button onClick={() => removeSkillHandler(item)}>Remove Me</button>
-					</li>
-				))}
-			</ul>
+					<ul>
+						{students
+							.filter((item) => item.isPresent === false)
+							.map((student) => (
+								<li key={student.id}>
+									<span>{student.name}</span>
+									<button onClick={() => toggleHandler(student.id)}>Accidentally Added</button>
+								</li>
+							))}
+					</ul>
+				</div>
+			</div>
 		</div>
-	)
-}
+	);
+};
 
-// const usmahir = () => {
-// 	return function () {
-// 		return "hello"
-// 	}
-// }
-// const amarMorji= usemahir()
 export default App;

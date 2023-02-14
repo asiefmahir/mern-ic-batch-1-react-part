@@ -39,3 +39,13 @@
     transform: rotate(360deg);
   }
 }
+
+.all-list, .present-list, .absent-list {
+  border: 1px solid black;
+}
+
+.student-section {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 3rem;
+}

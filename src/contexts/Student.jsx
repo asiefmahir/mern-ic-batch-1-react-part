@@ -100,7 +100,7 @@ const StudentProvider = ({children}) => {
 
 		setStudents(newStudentList);
 	};
-    console.log(children, 'from context');
+    // console.log(children, 'from context');
 /*  */
     const studentCtx = {studentName, setStudentName, students, setStudents, editMode, setEditMode, editableStudent, setEditableStudent, toggleHandler, createHandler, updateHandler, editHandler, removeHandler, presentHandler, absentHandler}
 

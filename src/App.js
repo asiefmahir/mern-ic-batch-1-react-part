@@ -46,15 +46,15 @@ const App = () => {
 
 	return (
 		<div className="App">
-			{/* <StudentForm />
-			<StudentSection /> */}
-			<p>The value of the counter is {counter}</p>
+			<StudentForm />
+			<StudentSection />
+			{/* <p>The value of the counter is {counter}</p>
 
 			<button onClick={() => dispatch({type: 'increase_counter', payload: 1})}>Increase By 1</button>
 			<button onClick={() => dispatch({type: 'increase_counter', payload: 100})}>Increase By 100</button>
 			<button onClick={() => dispatch({type: 'increase_counter', payload: 50})}>Increase By 50</button>
 			<button onClick={() => dispatch({type: 'decrease_counter', payload: 1})}>Decrease By 1</button>
-			<button onClick={() => dispatch({type: 'decrease_counter', payload: 10})}>Decrease By 10</button>
+			<button onClick={() => dispatch({type: 'decrease_counter', payload: 10})}>Decrease By 10</button> */}
 
 
 		</div>

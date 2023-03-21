@@ -1,16 +1,14 @@
 import {BrowserRouter, Routes, Route} from 'react-router-dom';
-import Home from '../pages/Home';
-import About from '../pages/About';
-import PostDetails from '../pages/PostDetails';
+import Boards from '../pages/Boards';
+import BoardDetails from '../pages/BoardDetails';
 
 
 const Router = () => {
     return (
         <BrowserRouter>
             <Routes>
-                <Route path='/' element={<Home />}/>
-                <Route path='/about' element={<About />}/>
-                <Route path='/posts/:postId' element={<PostDetails />}/>
+                <Route path='/' element={<Boards />}/>
+                <Route path='/boards/:boardId' element = {<BoardDetails />}/>
             </Routes>
         </BrowserRouter>
     )

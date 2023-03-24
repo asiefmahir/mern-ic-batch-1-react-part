@@ -1,5 +1,7 @@
 import { useState, useContext } from "react";
 
+import {Draggable} from 'react-beautiful-dnd'
+
 import { BoardContext} from "../contexts/Board";
 import { ListContext } from "../contexts/List";
 import { TaskContext } from "../contexts/Task";
@@ -8,7 +10,7 @@ import { icons } from "../assets";
 
 import AddItemForm from "./AddItemForm";
 
-const TaskCard = ({task}) => {
+const TaskCard = ({task, index}) => {
     const [taskTitle, setTaskTitle] = useState(task.title);
     const [editMode, setEditMode] = useState(false);
     const {dispatchBoardAction} = useContext(BoardContext);
@@ -53,23 +55,33 @@ const TaskCard = ({task}) => {
     }
 
     return (
-        <>
-            {!editMode ? (
-                 <div onClick={() => setEditMode(true)} className="task-card">
-                    <p>{task.title}</p>
-                    <img src={icons.crossIcon} alt="" className="add-item-icon" onClick={removeHandler} />
-                 </div>   
-            ) : (
-                <AddItemForm 
-                    title={taskTitle}
-                    onChangeHandler={(e) => {
-                        setTaskTitle(e.target.value)
-                    }}
-                    setEditMode={setEditMode}
-                    submitHandler={submitHandler}
-                />
-            )}
-        </>
+       <Draggable draggableId={task.id} index={index}>
+             {(provided) => {
+                return (
+                    <div
+                        ref={provided.innerRef}
+                        {...provided.draggableProps}
+                        {...provided.dragHandleProps}
+                    >
+                        {!editMode ? (
+                            <div onClick={() => setEditMode(true)} className="task-card">
+                                <p>{task.title}</p>
+                                <img src={icons.crossIcon} alt="" className="add-item-icon" onClick={removeHandler} />
+                            </div>   
+                        ) : (
+                            <AddItemForm 
+                                title={taskTitle}
+                                onChangeHandler={(e) => {
+                                    setTaskTitle(e.target.value)
+                                }}
+                                setEditMode={setEditMode}
+                                submitHandler={submitHandler}
+                            />
+                        )}
+                    </div>
+                )
+             }}
+       </Draggable>
     )
 }
 

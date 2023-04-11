@@ -1,7 +1,7 @@
 
 import { useEffect } from 'react'
 import { useDispatch } from 'react-redux'
-// import { addToCart } from '../store/actions';
+import {addToCart} from '../store/actions/cart'
 
 
 const ProductCard =({product}) => {
@@ -30,7 +30,7 @@ const ProductCard =({product}) => {
           </p>
         </div>
         <div class = "ingredient__btn">
-          <button onClick={() => dispatch({type: 'ADD_TO_CART', payload: product})} class="btn-white">
+          <button onClick={() => dispatch(addToCart(product))} class="btn-white">
             ADD TO CART
           </button>
         </div>
@@ -38,5 +38,10 @@ const ProductCard =({product}) => {
     </div>
   )
 }
+
+// addToCart(product) = {
+//         type: "ADD_TO_CART",
+//         payload: product
+//     }
 
 export default ProductCard

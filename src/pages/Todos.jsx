@@ -1,20 +1,32 @@
-import React from 'react'
-import { useFetchData } from '../hooks/fetch'
+import React, {useEffect} from 'react';
+
+import {useSelector, useDispatch} from 'react-redux'
+
 import { Link } from 'react-router-dom'
+import Nav from '../components/Nav';
+
+import {fetchTodo} from '../middlewares'
 
 const Todos = () => {
+	const {isLoading, todos, errorMessage} = useSelector((state) => state.todos);
+	const dispatch = useDispatch()
 
-    const {data:todos, isLoading, errorMessage} = useFetchData(`https://jsonplaceholder.typicode.com/todos?_limit=5`, [])
+	useEffect(() => {
+		dispatch(fetchTodo)
+	}, [])
+
+
+   
   return (
     <div>
+		<Nav />
 			<h2>All Todos</h2>
 			{isLoading && <h1>Loading..........</h1>}
 			{errorMessage && <h1>{errorMessage}</h1>}
 			<ul>
-				{todos.map((post) => (
-					<Link key={post.id} to={`/posts/${post.id}`}>
-						<li>{post.title}</li>
-					</Link>
+				{todos.map((todo) => (
+					
+						<li key={todo.id}>{todo.title}</li>
 				))}
 			</ul>
 		</div>

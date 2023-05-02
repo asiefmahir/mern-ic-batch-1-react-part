@@ -1,20 +1,31 @@
-import { Link } from "react-router-dom";
-import { useFetchData } from "../hooks/fetch";
+import { useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
+// import { fetchPost } from "../middlewares";
+import Nav from "../components/Nav";
+import { fetchPosts } from "../store/reducers/post";
 
 const Posts = () => {
 
-    const {data:posts, isLoading, errorMessage} = useFetchData(`https://jsonplaceholder.typicode.com/posts?_limit=5`, [])
+	const {isLoading, posts, errorMessage} = useSelector((state) => state.posts);
+
+	const dispatch = useDispatch();
+
+	useEffect(() => {
+		dispatch(fetchPosts())
+	}, [])
+
     
 	return (
 		<div>
+			<Nav />
 			<h2>All Posts</h2>
 			{isLoading && <h1>Loading..........</h1>}
 			{errorMessage && <h1>{errorMessage}</h1>}
 			<ul>
 				{posts.map((post) => (
-					<Link key={post.id} to={`/posts/${post.id}`}>
-						<li>{post.title}</li>
-					</Link>
+
+						<li key = {post.id}>{post.title}</li>
+					
 				))}
 			</ul>
 		</div>

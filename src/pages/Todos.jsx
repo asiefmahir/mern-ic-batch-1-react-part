@@ -1,36 +1,36 @@
-import React, {useEffect} from 'react';
+import React, { useEffect } from "react";
 
-import {useSelector, useDispatch} from 'react-redux'
+import { useSelector, useDispatch } from "react-redux";
 
-import { Link } from 'react-router-dom'
-import Nav from '../components/Nav';
+import { Link } from "react-router-dom";
+import Nav from "../components/Nav";
 
-import {fetchTodo} from '../middlewares'
+// import { fetchTodo } from "../middlewares";
+import {fetchTodos} from '../store/reducers/todo'
 
 const Todos = () => {
-	const {isLoading, todos, errorMessage} = useSelector((state) => state.todos);
-	const dispatch = useDispatch()
+	const { isLoading, todos, errorMessage } = useSelector(
+		(state) => state.todos
+	);
+	const dispatch = useDispatch();
 
 	useEffect(() => {
-		dispatch(fetchTodo)
-	}, [])
+		dispatch(fetchTodos());
+	}, []);
 
-
-   
-  return (
-    <div>
-		<Nav />
+	return (
+		<div>
+			<Nav />
 			<h2>All Todos</h2>
 			{isLoading && <h1>Loading..........</h1>}
 			{errorMessage && <h1>{errorMessage}</h1>}
 			<ul>
 				{todos.map((todo) => (
-					
-						<li key={todo.id}>{todo.title}</li>
+					<li key={todo.id}>{todo.title}</li>
 				))}
 			</ul>
 		</div>
-    )
-}
+	);
+};
 
-export default Todos
+export default Todos;

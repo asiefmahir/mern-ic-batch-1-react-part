@@ -36,3 +36,12 @@ export const postSlice = createSlice({
         })
     }
 })
+
+
+// 10 ta post
+
+
+// new post created
+// 5 ta different // 11 post
+
+// refetch

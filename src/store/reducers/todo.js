@@ -48,7 +48,7 @@ const initState = {
 }
 
 export const fetchTodos = createAsyncThunk('todos/fetchTodos', async () => {
-    const response = await fetch(`https://jsonplaceholder.typicodea.com/todos?_limit=6`);
+    const response = await fetch(`https://jsonplaceholder.typicode.com/todos?_limit=6`);
 
     const data = await response.json();
     return data

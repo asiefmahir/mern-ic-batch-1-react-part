@@ -25,6 +25,7 @@ import {configureStore, combineReducers} from '@reduxjs/toolkit';
 import {cartSlice} from './reducers/cart'
 import {todoSlice} from './reducers/todo'
 import { postSlice } from './reducers/post';
+import {noteApi} from './features/notes/noteApi'
 
 
 
@@ -34,10 +35,11 @@ import { postSlice } from './reducers/post';
 const rootReducer = combineReducers({
     cart: cartSlice.reducer,
     [todoSlice.name]: todoSlice.reducer,
-    [postSlice.name]: postSlice.reducer
+    [postSlice.name]: postSlice.reducer,
+    [noteApi.reducerPath]: noteApi.reducer
 })
 
 export const store = configureStore({
-    reducer: rootReducer
-    // middleware: (getDefaultMiddleware) => getDefaultMiddleware({})
+    reducer: rootReducer,
+    middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(noteApi.middleware)
 })

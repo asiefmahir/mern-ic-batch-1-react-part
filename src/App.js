@@ -1,9 +1,13 @@
-import Router from "./router/Router";
 import './App.css';
+import Person from './components/Person';
 
 function App() {
   return (
-    <Router />
+    <div>
+      Hello World
+      <Person name="Asief Mahir" age={26} skills={["Js", "React"]}/>
+      {/* <Person name="Imrul Vai" age={25} skills={["css", "Node", "Js", "React"]}/> */}
+    </div>
   )
   
 }

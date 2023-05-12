@@ -1,18 +1,11 @@
-import "./App.css";
-import { useSelector } from "react-redux";
-import { useDispatch } from "react-redux";
 import Router from "./router/Router";
+import './App.css';
 
-
-
-const App = () => {
-
-	return (
-		<div>
-			<Router />
-		</div>
-	)
-};
+function App() {
+  return (
+    <Router />
+  )
+  
+}
 
 export default App;
-
